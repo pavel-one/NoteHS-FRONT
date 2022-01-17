@@ -1,0 +1,5 @@
+.idea
+node_modules
+src/js
+src/css
+src/mix-manifest.json

@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "NoteHS",
+  "description": "Home page notes and workplace",
+  "version": "1.0.0",
+  "author": "pavel@orendat.ru",
+  "icons": {},
+  "permissions": [
+    "bookmarks",
+    "identity",
+    "identity.id",
+    "identity.email",
+    "activeTab",
+    "tabs"
+  ],
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "background": {
+    "scripts": [
+      "js/main.js"
+    ]
+  }
+}
