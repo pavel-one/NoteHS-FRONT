@@ -11,6 +11,10 @@ export default {
     chrome.bookmarks.getTree(items => {
       console.log(items)
     })
+    //top sites
+    chrome.topSites.get(item => {
+      console.log('top sites', item)
+    })
     //Profile google
     chrome.identity.getProfileUserInfo(function(userInfo) {
       console.log(userInfo)

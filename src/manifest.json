@@ -6,9 +6,9 @@
   "author": "pavel@orendat.ru",
   "icons": {},
   "permissions": [
+    "topSites",
     "bookmarks",
     "identity",
-    "identity.id",
     "identity.email",
     "activeTab",
     "tabs"
