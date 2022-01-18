@@ -1,3 +1,30 @@
+#app {
+  position: relative;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+}
 body {
-  background: #eee;
+  height: 100%;
+  background: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+#app {
+  height: 100%;
+}
+.logo {
+  font-size: 3em;
+  line-height: 1;
+  font-family: 'Bebas Neue', cursive;
+  color: #444444;
+  span {
+    color: #1a5cff;
+    margin-left: 1px;
+  }
 }
