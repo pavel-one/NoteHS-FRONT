@@ -71,16 +71,16 @@ export default {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-.content {
-  max-width: 600px;
-}
-.load-block {
-  height: 40px;
-  position: relative;
-}
-.logo {
-  font-size: 12em;
-  position: relative;
+  .content {
+    max-width: 600px;
+  }
+  .load-block {
+    height: 40px;
+    position: relative;
+  }
+  .logo {
+    font-size: 12em;
+    position: relative;
+  }
 }
 </style>

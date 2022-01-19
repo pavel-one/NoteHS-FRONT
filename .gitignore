@@ -1,5 +1,7 @@
 .idea
 node_modules
 src/js
+src/fonts
 src/css
 src/mix-manifest.json
+fonts
