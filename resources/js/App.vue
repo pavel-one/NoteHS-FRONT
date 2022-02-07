@@ -1,7 +1,12 @@
 <template>
   <div id="app" ref="app">
     <div v-if="login">
-      <root></root>
+      <root>
+        <template #header>
+          <h1>Быстрый доступ</h1>
+        </template>
+        <speed-dial></speed-dial>
+      </root>
     </div>
     <non-auth v-else></non-auth>
   </div>
@@ -11,9 +16,10 @@
 import NonAuth from "./components/non-auth.vue";
 import Logo from "./components/logo";
 import Root from "./template/root";
+import SpeedDial from "./components/speed-dial.vue";
 
 export default {
-  components: {Root, Logo, NonAuth},
+  components: {Root, Logo, NonAuth, SpeedDial},
   data() {
     return {
       login: true,

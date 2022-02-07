@@ -19,3 +19,48 @@ body {
     margin-left: 1px;
   }
 }
+.card-margin {
+  margin-left: 20px;
+  margin-bottom: 20px
+}
+.add-button {
+  .vs-card__img {
+    min-height: 236px;
+    font-size: 6em
+  }
+}
+
+.footer-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: calc(100%);
+}
+.con-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  .vs-button {
+    margin: 0;
+    .vs-button__content {
+      padding: 10px 30px;
+      &.vs-button {
+        margin-left: 10px
+      }
+    }
+  }
+}
+.con-content {
+  .vs-input-content {
+    margin: 10px 0;
+    width: calc(100%);
+    .vs-input {
+      width: 100%;
+    }
+  }
+}
+.not-margin {
+  margin: 0;
+  padding: 10px 10px 0;
+}
