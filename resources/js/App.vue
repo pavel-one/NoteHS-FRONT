@@ -36,9 +36,7 @@ export default {
   },
   mounted() {
     this.checkAuth();
-    this.$api.getUserInfo().then(res => {
-      console.log('test', res)
-    })
+    this.$api.getUserInfo()
 
     //Закладки
     chrome.bookmarks.getTree(items => {

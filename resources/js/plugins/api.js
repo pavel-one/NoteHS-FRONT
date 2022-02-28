@@ -38,6 +38,29 @@ Api.getUserInfo = async () => {
     return response.data
 }
 
+Api.createDial = async (data) => {
+    const token = await Api.Auth()
+
+    const response = await http.put('/dial/', data,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+}
+
+Api.getDials = async () => {
+    const dials = []
+    const token = await Api.Auth()
+
+    const response = await http.get('/dial/', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    return response.data.resource
+}
+
 Api.getToken = async () => {
     //test
     const a = await http.get('/')

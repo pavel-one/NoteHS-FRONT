@@ -9,17 +9,17 @@
         </div>
       </div>
     </vs-col>
-    <vs-col class="card-margin" :key="index" v-for="col,index in 20" :w="2">
+    <vs-col class="card-margin" :key="item.id" v-for="(item) in this.dials" :w="2">
       <vs-card type="2">
         <template #title>
-          <h3>Тестовая ссылка</h3>
+          <h3>{{ item.name }}</h3>
         </template>
         <template #img>
-          <img src="https://via.placeholder.com/350x350" alt="">
+          <img :src="'http://app.loc/' + item.screen" :alt="item.name">
         </template>
         <template #text>
           <p>
-            Тестовое описание тестовой ссылки
+            {{ item.description }}
           </p>
         </template>
       </vs-card>
@@ -36,12 +36,22 @@ export default {
   data: function () {
     return {
       open: false,
+      dials: [],
     }
   },
   methods: {
     triggerModal: function () {
       this.open = !this.open
-    }
+    },
+    updateDials: async function () {
+      const loading = this.$vs.loading()
+      console.log(await this.$api.getDials())
+      this.dials = await this.$api.getDials()
+      loading.close()
+    },
+  },
+  mounted() {
+    this.updateDials()
   }
 }
 </script>
