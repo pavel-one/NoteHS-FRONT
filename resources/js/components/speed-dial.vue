@@ -26,6 +26,22 @@
           <p>
             {{ item.description }}
           </p>
+          <vs-button-group>
+            <vs-button
+                color="primary"
+                icon
+                floating
+            >
+              <i class='bx bx-trash' ></i>
+            </vs-button>
+            <vs-button
+                color="danger"
+                icon
+                floating
+            >
+              <i class='bx bx-trash' ></i>
+            </vs-button>
+          </vs-button-group>
         </template>
       </vs-card>
     </vs-col>
@@ -65,7 +81,7 @@ export default {
     },
     checkDial: async function (id, index) {
       const loading = this.$vs.loading({
-        target: this.$refs['dial-'+id][0].$el,
+        target: this.$refs['dial-' + id][0].$el,
       })
 
 
