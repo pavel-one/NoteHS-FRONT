@@ -7,11 +7,14 @@
     </template>
 
     <div class="con-content">
-      <vs-input type="url" label-placeholder="Адрес сайта" v-model="url">
-        <template #icon>
-          <i class='bx bx-network-chart'></i>
-        </template>
-      </vs-input>
+      <form @submit.prevent="submit">
+        <vs-input type="url" label-placeholder="Адрес сайта" v-model="url">
+          <template #icon>
+            <i class='bx bx-network-chart'></i>
+          </template>
+        </vs-input>
+      </form>
+
     </div>
 
     <template #footer>
@@ -50,6 +53,7 @@ export default {
       })
       this.loading = false
       this.$emit('close')
+      this.url = null
     }
   }
 }

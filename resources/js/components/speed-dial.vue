@@ -10,11 +10,16 @@
       </div>
     </vs-col>
     <vs-col class="card-margin" :key="item.id" v-for="(item) in this.dials" :w="2">
-      <vs-card type="2">
+      <vs-card :ref="'dial-'+item.id" type="2">
         <template #title>
           <h3>{{ item.name }}</h3>
         </template>
-        <template #img>
+        <template v-if="!item.screen" #img>
+          <div class="image-placeholder">
+            <i class='bx bxs-image'></i>
+          </div>
+        </template>
+        <template v-else #img>
           <img :src="'http://app.loc/' + item.screen" :alt="item.name">
         </template>
         <template #text>
@@ -42,13 +47,42 @@ export default {
   methods: {
     triggerModal: function () {
       this.open = !this.open
+      if (!this.open) {
+        this.updateDials()
+      }
     },
     updateDials: async function () {
       const loading = this.$vs.loading()
-      console.log(await this.$api.getDials())
       this.dials = await this.$api.getDials()
+      this.dials.forEach((item, index) => {
+        if (!item.final) {
+          setTimeout(() => {
+            this.checkDial(item.id, index)
+          }, 100)
+        }
+      })
       loading.close()
     },
+    checkDial: async function (id, index) {
+      const loading = this.$vs.loading({
+        target: this.$refs['dial-'+id][0].$el,
+      })
+
+
+      const intervalId = setInterval(async () => {
+        const response = await this.$api.getDial(id)
+
+        if (response.final) {
+          this.dials[index].screen = response.screen
+          this.dials[index].name = response.name
+          this.dials[index].description = response.description
+          this.dials[index].url = response.url
+          this.dials[index].final = response.final
+          loading.close()
+          clearInterval(intervalId)
+        }
+      }, 500)
+    }
   },
   mounted() {
     this.updateDials()

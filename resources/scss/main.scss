@@ -21,13 +21,18 @@ body {
 }
 .card-margin {
   margin-left: 20px;
-  margin-bottom: 20px
+  margin-bottom: 20px;
 }
 .add-button {
   .vs-card__img {
-    min-height: 236px;
+    min-height: 133px;
     font-size: 6em
   }
+}
+.image-placeholder {
+  min-height: 133px;
+  font-size: 8em;
+  color: #e5e5e5;
 }
 
 .footer-dialog {

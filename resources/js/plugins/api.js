@@ -49,7 +49,6 @@ Api.createDial = async (data) => {
 }
 
 Api.getDials = async () => {
-    const dials = []
     const token = await Api.Auth()
 
     const response = await http.get('/dial/', {
@@ -61,12 +60,19 @@ Api.getDials = async () => {
     return response.data.resource
 }
 
-Api.getToken = async () => {
-    //test
-    const a = await http.get('/')
-    console.log('TEST PING', a.data)
-    //testend
+Api.getDial = async id => {
+    const token = await Api.Auth()
 
+    const response = await http.get('/dial/' + id, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    return response.data.resource
+}
+
+Api.getToken = async () => {
     const response = await http.post('/auth/', {
         google_id: google_id
     })
