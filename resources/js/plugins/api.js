@@ -57,7 +57,7 @@ Api.getDials = async () => {
         }
     })
 
-    return response.data.resource
+    return response.data.resource ?? []
 }
 
 Api.getDial = async id => {
