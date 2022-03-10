@@ -57,7 +57,19 @@ Api.getDials = async () => {
         }
     })
 
-    return response.data.resource ?? []
+    return response.data.resource
+}
+
+Api.deleteDial = async id => {
+    const token = await Api.Auth()
+
+    const response = await http.delete('/dial/'+id, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    return response.data.resource
 }
 
 Api.getDial = async id => {

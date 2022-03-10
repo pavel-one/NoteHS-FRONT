@@ -9,55 +9,36 @@
         </div>
       </div>
     </vs-col>
-    <vs-col class="card-margin" :key="item.id" v-for="(item) in this.dials" :w="2">
-      <vs-card :ref="'dial-'+item.id" type="2">
-        <template #title>
-          <h3>{{ item.name }}</h3>
-        </template>
-        <template v-if="!item.screen" #img>
-          <div class="image-placeholder">
-            <i class='bx bxs-image'></i>
-          </div>
-        </template>
-        <template v-else #img>
-          <img :src="'http://app.loc/' + item.screen" :alt="item.name">
-        </template>
-        <template #text>
-          <p>
-            {{ item.description }}
-          </p>
-          <vs-button-group>
-            <vs-button
-                color="primary"
-                icon
-                floating
-            >
-              <i class='bx bx-trash' ></i>
-            </vs-button>
-            <vs-button
-                color="danger"
-                icon
-                floating
-            >
-              <i class='bx bx-trash' ></i>
-            </vs-button>
-          </vs-button-group>
-        </template>
-      </vs-card>
-    </vs-col>
+    <dial @delete="deleteFunc" :ref="'dial-'+item.id" :key="item.id" v-for="(item) in this.dials" :width="2" :item="item"></dial>
     <add-site-modal :on-active="open" @close="triggerModal"></add-site-modal>
   </vs-row>
 </template>
 
 <script>
 import AddSiteModal from "./add-site-modal.vue";
+import Dial from "./chunks/dial.vue";
 
 export default {
-  components: {AddSiteModal},
+  components: {AddSiteModal, Dial},
   data: function () {
     return {
       open: false,
-      dials: [],
+      dials: [{
+        id: 1,
+        name: 'Разработка вашего ПО',
+        screen: 'images/pavel_one.png',
+        description: 'Разработка ПО на заказ',
+        default: true,
+        final: true
+      }],
+      defaultDials: [{
+        id: 1,
+        name: 'Разработка вашего ПО',
+        screen: 'images/pavel_one.png',
+        description: 'Разработка ПО на заказ',
+        default: true,
+        final: true
+      }]
     }
   },
   methods: {
@@ -69,7 +50,14 @@ export default {
     },
     updateDials: async function () {
       const loading = this.$vs.loading()
-      this.dials = await this.$api.getDials()
+      const dials = await this.$api.getDials()
+
+      if (dials) {
+        this.dials = dials
+      } else {
+        this.dials = this.defaultDials
+      }
+
       this.dials.forEach((item, index) => {
         if (!item.final) {
           setTimeout(() => {
@@ -98,6 +86,11 @@ export default {
           clearInterval(intervalId)
         }
       }, 500)
+    },
+
+    deleteFunc: async function (id) {
+      await this.$api.deleteDial(id)
+      await this.updateDials()
     }
   },
   mounted() {

@@ -6,6 +6,13 @@
           <h1>Быстрый доступ</h1>
         </template>
         <speed-dial></speed-dial>
+
+        <vs-row>
+          <vs-col style="margin-left: 20px">
+            <h2>Поплярные сайты</h2>
+          </vs-col>
+        </vs-row>
+        <speed-dial></speed-dial>
       </root>
     </div>
     <non-auth v-else></non-auth>
