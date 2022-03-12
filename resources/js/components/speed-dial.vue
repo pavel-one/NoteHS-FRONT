@@ -1,6 +1,6 @@
 <template>
   <vs-row :w="12" class="speed-dial">
-    <vs-col class="card-margin" :w="2">
+    <vs-col class="card-margin" :w="2" v-if="type === 0">
       <div class="vs-card-content type-2 add-button" @click="triggerModal">
         <div class="vs-card">
           <div class="vs-card__img">
@@ -19,6 +19,12 @@ import AddSiteModal from "./add-site-modal.vue";
 import Dial from "./chunks/dial.vue";
 
 export default {
+  props: {
+    type: {
+      type: Number,
+      default: 0
+    }
+  },
   components: {AddSiteModal, Dial},
   data: function () {
     return {
@@ -50,7 +56,7 @@ export default {
     },
     updateDials: async function () {
       const loading = this.$vs.loading()
-      const dials = await this.$api.getDials()
+      const dials = await this.$api.getDials(this.type)
 
       if (dials) {
         this.dials = dials
@@ -91,10 +97,17 @@ export default {
     deleteFunc: async function (id) {
       await this.$api.deleteDial(id)
       await this.updateDials()
-    }
+    },
   },
   mounted() {
-    this.updateDials()
+    if (this.type === 1) {
+      this.$api.syncDials()
+      setTimeout(() => {
+        this.updateDials()
+      }, 100)
+    } else {
+      this.updateDials()
+    }
   }
 }
 </script>

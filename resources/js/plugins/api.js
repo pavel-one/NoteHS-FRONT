@@ -48,16 +48,37 @@ Api.createDial = async (data) => {
     })
 }
 
-Api.getDials = async () => {
+Api.getDials = async (type = 0) => {
     const token = await Api.Auth()
 
-    const response = await http.get('/dial/', {
+    const response = await http.get('/dial/?type='+type, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     })
 
     return response.data.resource
+}
+
+Api.syncDials = async () => {
+    const token = await Api.Auth()
+    let sites = []
+
+    chrome.topSites.get(item => {
+        item.forEach(site => {
+            sites.push({
+                url: site.url
+            })
+        })
+
+        http.post('/user/sync/popular', {
+            dials: sites
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+    })
 }
 
 Api.deleteDial = async id => {

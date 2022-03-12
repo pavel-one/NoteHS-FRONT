@@ -12,7 +12,7 @@
             <h2>Поплярные сайты</h2>
           </vs-col>
         </vs-row>
-        <speed-dial></speed-dial>
+        <speed-dial :type="1"></speed-dial>
       </root>
     </div>
     <non-auth v-else></non-auth>
