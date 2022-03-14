@@ -39,9 +39,10 @@ Api.getUserInfo = async () => {
 }
 
 Api.createDial = async (data) => {
-    const token = await Api.Auth()
+    await Api.dropCache()
 
-    const response = await http.put('/dial/', data,{
+    const token = await Api.Auth()
+    const response = await http.put('/dial/', data, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -49,18 +50,37 @@ Api.createDial = async (data) => {
 }
 
 Api.getDials = async (type = 0) => {
+    const cacheKey = 'dials-type-' + type;
+
+    if (localStorage.getItem(cacheKey)) {
+        return JSON.parse(localStorage.getItem(cacheKey))
+    }
+
     const token = await Api.Auth()
 
-    const response = await http.get('/dial/?type='+type, {
+    const response = await http.get('/dial/?type=' + type, {
         headers: {
             Authorization: `Bearer ${token}`
         }
     })
 
+    localStorage.setItem(cacheKey, JSON.stringify(response.data.resource))
     return response.data.resource
 }
 
 Api.syncDials = async () => {
+    if (!localStorage.getItem('latest-sync')) {
+        localStorage.setItem('latest-sync', Date.now().toString())
+    }
+
+    const latestSync = +localStorage.getItem('latest-sync')
+    const diff = (+Date.now() - latestSync) / 60000 //in minutes
+    if (diff < 1) {
+        return
+    }
+
+    localStorage.setItem('latest-sync', Date.now().toString())
+
     const token = await Api.Auth()
     let sites = []
 
@@ -82,9 +102,10 @@ Api.syncDials = async () => {
 }
 
 Api.deleteDial = async id => {
-    const token = await Api.Auth()
+    await Api.dropCache()
 
-    const response = await http.delete('/dial/'+id, {
+    const token = await Api.Auth()
+    const response = await http.delete('/dial/' + id, {
         headers: {
             Authorization: `Bearer ${token}`
         }
@@ -94,8 +115,9 @@ Api.deleteDial = async id => {
 }
 
 Api.getDial = async id => {
-    const token = await Api.Auth()
+    await Api.dropCache()
 
+    const token = await Api.Auth()
     const response = await http.get('/dial/' + id, {
         headers: {
             Authorization: `Bearer ${token}`
@@ -111,6 +133,13 @@ Api.getToken = async () => {
     })
 
     return response.data.resource.token
+}
+
+Api.dropCache = async () => {
+    const types = [0, 1]
+    types.forEach(type => {
+        localStorage.removeItem('dials-type-' + type)
+    })
 }
 
 Module.install = function (vue, options) {
