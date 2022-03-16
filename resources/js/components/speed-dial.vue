@@ -74,6 +74,7 @@ export default {
       loading.close()
     },
     checkDial: async function (id, index) {
+      //TODO: Сделать внутри компонента, жутко багует, криво выглядит
       const loading = this.$vs.loading({
         target: this.$refs['dial-' + id][0].$el,
       })

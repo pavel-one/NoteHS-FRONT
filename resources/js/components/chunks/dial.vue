@@ -10,7 +10,7 @@
         </div>
       </template>
       <template v-else #img>
-        <img v-if="!item.default" :src="'http://app.loc/' + item.screen" :alt="item.name">
+        <img v-if="!item.default" :src="$api.backendUrl + item.screen" :alt="item.name">
         <img v-else :src="item.screen" :alt="item.name">
       </template>
       <template #text>

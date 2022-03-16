@@ -9,12 +9,14 @@ chrome.identity.getProfileUserInfo(function (userInfo) {
 });
 
 const http = axios.create({
-    baseURL: 'http://app.loc/',
+    baseURL: process.env.MIX_BACKEND_URL,
     headers: {
         accept: 'application/json'
     },
     timeout: 10000
 })
+
+Api.backendUrl = process.env.MIX_BACKEND_URL
 
 Api.Auth = async () => {
     let token = localStorage.getItem('token')
@@ -69,14 +71,12 @@ Api.getDials = async (type = 0) => {
 }
 
 Api.syncDials = async () => {
-    if (!localStorage.getItem('latest-sync')) {
-        localStorage.setItem('latest-sync', Date.now().toString())
-    }
-
-    const latestSync = +localStorage.getItem('latest-sync')
-    const diff = (+Date.now() - latestSync) / 60000 //in minutes
-    if (diff < 1) {
-        return
+    if (localStorage.getItem('latest-sync')) {
+        const latestSync = +localStorage.getItem('latest-sync')
+        const diff = (+Date.now() - latestSync) / 60000 //in minutes
+        if (diff < 1) {
+            return
+        }
     }
 
     localStorage.setItem('latest-sync', Date.now().toString())
@@ -97,6 +97,8 @@ Api.syncDials = async () => {
             headers: {
                 Authorization: `Bearer ${token}`
             }
+        }).then(response => {
+            Api.dropCache()
         })
     })
 }
