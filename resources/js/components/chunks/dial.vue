@@ -1,6 +1,6 @@
 <template>
   <vs-col class="card-margin" :w="width">
-    <vs-card :ref="'dial-'+item.id" type="2">
+    <vs-card :ref="'dial-'+item.id" type="5">
       <template #title>
         <h3>{{ item.name }}</h3>
       </template>
@@ -19,11 +19,15 @@
             {{ item.description }}
           </p>
         </div>
-        <vs-button-group v-if="!item.default">
+      </template>
+      <template #buttons>
+        <div v-if="!item.default">
           <vs-button
               color="primary"
               icon
               floating
+              gradient
+              circle
               @click="$emit('edit', item.id)"
           >
             <i class='bx bx-edit-alt'></i>
@@ -31,12 +35,14 @@
           <vs-button
               color="danger"
               icon
+              gradient
               floating
+              circle
               @click.prevent="$emit('delete', item.id)"
           >
             <i class='bx bx-trash'></i>
           </vs-button>
-        </vs-button-group>
+        </div>
       </template>
     </vs-card>
   </vs-col>
