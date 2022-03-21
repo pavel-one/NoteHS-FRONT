@@ -1,6 +1,6 @@
 <template>
   <vs-col class="card-margin" :w="width">
-    <vs-card :ref="'dial-'+item.id" type="5">
+    <vs-card :ref="'dial-'+item.id" :type="type">
       <template #title>
         <h3>{{ item.name }}</h3>
       </template>
@@ -20,7 +20,7 @@
           </p>
         </div>
       </template>
-      <template #buttons>
+      <template v-if="!readonly" #buttons>
         <div v-if="!item.default">
           <vs-button
               color="primary"
@@ -58,6 +58,14 @@ export default {
     width: {
       type: Number,
       default: 2
+    },
+    type: {
+      type: String,
+      default: 5
+    },
+    readonly: {
+      type: Boolean,
+      default: false
     }
   }
 }

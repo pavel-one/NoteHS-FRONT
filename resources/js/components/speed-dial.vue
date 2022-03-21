@@ -9,13 +9,15 @@
         </div>
       </div>
     </vs-col>
-    <dial @delete="deleteFunc" :ref="'dial-'+item.id" :key="item.id" v-for="(item) in this.dials" :width="2" :item="item"></dial>
+    <dial @edit="editFunc" @delete="deleteFunc" :ref="'dial-'+item.id" :key="item.id" v-for="(item) in this.dials" :width="2" :item="item"></dial>
     <add-site-modal :on-active="open" @close="triggerModal"></add-site-modal>
+    <edit-site-modal @close="edit.active = false" :on-active="edit.active" :data="edit.data" :loading="edit.loading"></edit-site-modal>
   </vs-row>
 </template>
 
 <script>
 import AddSiteModal from "./add-site-modal.vue";
+import EditSiteModal from "./modals/edit-side-modal.vue";
 import Dial from "./chunks/dial.vue";
 
 export default {
@@ -25,10 +27,15 @@ export default {
       default: 0
     }
   },
-  components: {AddSiteModal, Dial},
+  components: {AddSiteModal, Dial, EditSiteModal},
   data: function () {
     return {
       open: false,
+      edit: {
+        active: false,
+        loading: false,
+        data: {}
+      },
       dials: [{
         id: 1,
         name: 'Разработка вашего ПО',
@@ -99,6 +106,13 @@ export default {
       await this.$api.deleteDial(id)
       await this.updateDials()
     },
+
+    editFunc: async function (id) {
+      this.edit.active = true;
+      this.edit.loading = true;
+      this.edit.data = await this.$api.getDial(id)
+      this.edit.loading = false
+    }
   },
   mounted() {
     if (this.type === 1) {
