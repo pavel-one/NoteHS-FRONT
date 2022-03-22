@@ -10,8 +10,7 @@
         </div>
       </template>
       <template v-else #img>
-        <img v-if="!item.default" :src="$api.backendUrl + item.screen" :alt="item.name">
-        <img v-else :src="item.screen" :alt="item.name">
+        <img :src="item.screen" :alt="item.name">
       </template>
       <template #text>
         <div>
@@ -61,7 +60,7 @@ export default {
     },
     type: {
       type: String,
-      default: 5
+      default: '5'
     },
     readonly: {
       type: Boolean,

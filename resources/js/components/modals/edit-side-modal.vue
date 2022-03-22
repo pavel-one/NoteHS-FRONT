@@ -7,8 +7,22 @@
         </h4>
       </div>
     </template>
-    <dial class="preview" :item="form" :width="12" type="5" :readonly="true"></dial>
-    <br><br><br><br>
+    <div @click="changePhoto" class="preview-wrapper">
+      <dial class="preview" :item="form" :width="12" type="5" :readonly="true"></dial>
+      <div class="change-photo-wrapper">
+        <vs-button
+            circle
+            icon
+            floating
+            shadow
+            size="xl"
+            @click="changePhoto"
+        >
+          <i class='bx bx-sync'></i>
+        </vs-button>
+      </div>
+    </div>
+    <br><br><br>
 
 
     <div class="edit-form">
@@ -40,6 +54,7 @@
           <i class='bx bx-link' ></i>
         </template>
       </vs-input>
+      <input  type="file" accept="image/*" hidden @change="changePhotoEvent" ref="imageInput">
     </div>
 
     <template #footer>
@@ -47,10 +62,6 @@
         <vs-button block>
           Сохранить
         </vs-button>
-
-        <div class="new">
-          Тест
-        </div>
       </div>
     </template>
   </vs-dialog>
@@ -58,6 +69,7 @@
 
 <script>
 import Dial from "../chunks/dial";
+
 export default {
   components: {Dial},
   props: ['onActive', 'loading', 'data'],
@@ -77,6 +89,15 @@ export default {
         description: '',
         url: '',
       }
+    }
+  },
+  methods: {
+    changePhoto: function () {
+      this.$refs.imageInput.click()
+    },
+    changePhotoEvent: function (event) {
+      const file = event.target.files[0]
+      this.form.screen = URL.createObjectURL(file)
     }
   },
   mounted() {
@@ -102,5 +123,43 @@ export default {
     opacity: 1;
     -webkit-box-shadow: 0 0 30px 0 rgba(0, 0, 0, var(--vs-shadow-opacity));
     box-shadow: 0 0 30px 0 rgba(0, 0, 0, var(--vs-shadow-opacity));
+  }
+  .preview-wrapper {
+    position: relative;
+
+    .vs-button {
+      transition: .25s;
+      opacity: 0;
+    }
+
+    .preview {
+      transition: .2s;
+
+      .vs-button--size-xl .vs-button__content {
+        font-size: 5em !important;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      .preview {
+        opacity: .3;
+      }
+      .vs-button {
+        opacity: 1;
+      }
+    }
+
+    .change-photo-wrapper {
+      position: absolute;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
   }
 </style>
