@@ -9,7 +9,7 @@
 
         <vs-row>
           <vs-col style="margin-left: 20px">
-            <h2>Поплярные сайты</h2>
+            <h2>Часто посещаете</h2>
           </vs-col>
         </vs-row>
         <speed-dial :type="1"></speed-dial>

@@ -11,7 +11,7 @@
     </vs-col>
     <dial @edit="editFunc" @delete="deleteFunc" :ref="'dial-'+item.id" :key="item.id" v-for="(item) in this.dials" :width="2" :item="item"></dial>
     <add-site-modal :on-active="open" @close="triggerModal"></add-site-modal>
-    <edit-site-modal @close="edit.active = false" :on-active="edit.active" :data="edit.data" :loading="edit.loading"></edit-site-modal>
+    <edit-site-modal @close="closeModal" :on-active="edit.active" :data="edit.data"></edit-site-modal>
   </vs-row>
 </template>
 
@@ -109,9 +109,11 @@ export default {
 
     editFunc: async function (id) {
       this.edit.active = true;
-      this.edit.loading = true;
       this.edit.data = await this.$api.getDial(id)
-      this.edit.loading = false
+    },
+    closeModal: function () {
+      this.edit.active = false
+      this.updateDials()
     }
   },
   mounted() {

@@ -1,5 +1,5 @@
 <template>
-  <vs-dialog v-model="active" :loading="loading" @close="$emit('close')">
+  <vs-dialog v-model="active" :loading="loading" ref="editModal" @close="$emit('close')">
     <template #header>
       <div style="text-align: center; max-width: 400px">
         <h4 class="not-margin">
@@ -59,7 +59,7 @@
 
     <template #footer>
       <div class="footer-dialog">
-        <vs-button block>
+        <vs-button block @click="submit">
           Сохранить
         </vs-button>
       </div>
@@ -72,7 +72,7 @@ import Dial from "../chunks/dial";
 
 export default {
   components: {Dial},
-  props: ['onActive', 'loading', 'data'],
+  props: ['onActive', 'data'],
   watch: {
     onActive: function (active) {
       this.active = active
@@ -84,6 +84,7 @@ export default {
   data: function () {
     return {
       active: false,
+      loading: false,
       form: {
         name: '',
         description: '',
@@ -98,6 +99,19 @@ export default {
     changePhotoEvent: function (event) {
       const file = event.target.files[0]
       this.form.screen = URL.createObjectURL(file)
+    },
+    submit: async function () {
+      this.loading = true
+
+      await this.$api.changeDial(this.form.id, {
+        url: this.form.url,
+        name: this.form.name,
+        description: this.form.description
+      })
+
+      this.loading = false
+
+      this.$emit('close')
     }
   },
   mounted() {
