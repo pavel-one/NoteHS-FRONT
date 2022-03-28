@@ -89,6 +89,7 @@ export default {
         name: '',
         description: '',
         url: '',
+        file: null
       }
     }
   },
@@ -98,16 +99,23 @@ export default {
     },
     changePhotoEvent: function (event) {
       const file = event.target.files[0]
+      this.form.file = file
       this.form.screen = URL.createObjectURL(file)
     },
     submit: async function () {
       this.loading = true
 
-      await this.$api.changeDial(this.form.id, {
-        url: this.form.url,
-        name: this.form.name,
-        description: this.form.description
-      })
+      const data = new FormData()
+
+      data.append('url', this.form.url)
+      data.append('name', this.form.name)
+      data.append('description', this.form.description)
+
+      if (this.form.file) {
+        data.append('image', this.form.file)
+      }
+
+      await this.$api.changeDial(this.form.id, data)
 
       this.loading = false
 
