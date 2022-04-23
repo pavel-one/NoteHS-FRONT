@@ -1,6 +1,5 @@
 import axios from "axios";
 
-const Module = {}
 const Api = {}
 
 let google_id = ''
@@ -133,9 +132,4 @@ Api.getToken = async () => {
     return response.data.resource.token
 }
 
-Module.install = function (vue, options) {
-    vue.prototype.$api = Api
-
-}
-
-export default Module
+export default Api

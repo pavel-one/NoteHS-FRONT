@@ -1,14 +1,12 @@
-import Vue from "vue";
+import { createApp } from "vue";
 import App from "./App.vue"
-import Vuesax from 'vuesax'
-import 'vuesax/dist/vuesax.css'
+import Ant from 'ant-design-vue'
 import Api from "./plugins/api.js";
 
-Vue.use(Vuesax)
+import 'ant-design-vue/dist/antd.css'
 
-Vue.use(Api)
+const app = createApp(App)
+    .use(Ant)
+app.config.globalProperties.$api = Api
 
-let app = new Vue({
-    el: '#app',
-    render: h => h(App)
-}).$mount("#app");
+app.mount('#app')
