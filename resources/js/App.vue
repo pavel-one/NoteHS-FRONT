@@ -3,16 +3,9 @@
     <div v-if="login">
       <root>
         <template #header>
-          <h1>Быстрый доступ</h1>
+          <h1>{{ $store.state.title }}</h1>
         </template>
-        <speed-dial></speed-dial>
-
-        <vs-row>
-          <vs-col style="margin-left: 20px">
-            <h2>Часто посещаете</h2>
-          </vs-col>
-        </vs-row>
-        <speed-dial :type="1"></speed-dial>
+        <component v-bind:is="$store.state.component"></component>
       </root>
     </div>
     <non-auth v-else></non-auth>
@@ -21,12 +14,10 @@
 
 <script>
 import NonAuth from "./components/non-auth.vue";
-import Logo from "./components/logo";
 import Root from "./template/root";
-import SpeedDial from "./components/speed-dial.vue";
 
 export default {
-  components: {Root, Logo, NonAuth, SpeedDial},
+  components: {Root, NonAuth},
   data() {
     return {
       login: true,

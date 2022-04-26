@@ -1,10 +1,7 @@
 <template>
   <div class="root">
-    <vs-row :w="12">
-      <vs-col vs-type="flex" w="2">
-        <sidebar></sidebar>
-      </vs-col>
-
+    <navbar></navbar>
+    <vs-row :w="12" class="components-wrapper" justify="center">
       <vs-col :w="9">
         <vs-row>
           <vs-col style="margin-left: 20px">
@@ -21,8 +18,9 @@
 <script>
 import Sidebar from "../components/sidebar.vue";
 import AddSiteModal from "../components/add-site-modal.vue";
+import Navbar from "../components/navbar";
 
 export default {
-  components: {AddSiteModal, Sidebar},
+  components: {Navbar, AddSiteModal, Sidebar},
 }
 </script>

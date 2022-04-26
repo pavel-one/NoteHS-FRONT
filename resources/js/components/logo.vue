@@ -1,5 +1,5 @@
 <template>
   <div class="logo">
-    Work<span class="--primary">HS</span>
+    <i class='bx bxs-component'></i> Work<span class="--primary">HS</span>
   </div>
 </template>
