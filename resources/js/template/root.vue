@@ -4,7 +4,7 @@
     <vs-row :w="12" class="components-wrapper" justify="center">
       <vs-col :w="9">
         <vs-row>
-          <vs-col style="margin-left: 20px">
+          <vs-col style="margin-left: 20px; text-align: center">
             <slot name="header"></slot>
           </vs-col>
         </vs-row>

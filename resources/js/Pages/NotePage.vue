@@ -1,7 +1,7 @@
 <template>
   <div>
     {{ editorjson }}
-    <editor ref="editor" :config="config" :initialized="onInit"></editor>
+    <editor ref="editor" @change="change" v-model="editorjson" :config="config" :initialized="onInit"></editor>
   </div>
 </template>
 
@@ -13,30 +13,31 @@ export default {
     return {
       editorjson: '',
       config: {
+        placeholder: 'Начни вводить...',
         tools: {
           header: require('@editorjs/header'),
           list: require('@editorjs/list'),
-          inlineCode: require('@editorjs/inline-code'),
-          personality: require('@editorjs/personality'),
-          codebox: require('@bomdi/codebox'),
-          link: require('@editorjs/link'),
-          marker: require('@editorjs/marker'),
-          table: require('@editorjs/table'),
-          delimiter: require('@editorjs/delimiter'),
-          quote: require('@editorjs/quote'),
-          image: require('@editorjs/image'),
-          warning: require('@editorjs/warning'),
           checklist: require('@editorjs/checklist'),
+          link: require('@editorjs/link'),
+          delimiter: require('@editorjs/delimiter'),
+          image: require('@editorjs/image'),
+          codebox: require('@bomdi/codebox'),
+          table: require('editorjs-table'),
           attaches: require('@editorjs/attaches'),
+          marker: require('@editorjs/marker'),
+          inlineCode: require('@editorjs/inline-code'),
         },
         codebox: {
-          themeName: 'github', // Optional
-          useDefaultTheme: 'dark' // Optional. This also determines the background color of the language select drop-down
+          themeName: 'github',
+          useDefaultTheme: 'dark'
         }
       }
     }
   },
   methods: {
+    change: function (e) {
+      console.log(e)
+    },
     onInit: function (e) {
       console.log(e, 'init editor')
     }
