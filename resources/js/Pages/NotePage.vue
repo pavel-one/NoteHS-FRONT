@@ -2,7 +2,7 @@
   <vs-row>
     {{ editorjson }}
       <vs-col :w="2">
-
+        <notes-changer></notes-changer>
       </vs-col>
       <vs-col :w="9" :offset="1">
         <editor ref="editor" @change="change" v-model="editorjson" :config="config" :initialized="onInit"></editor>
@@ -11,7 +11,10 @@
 </template>
 
 <script>
+import NotesChanger from "@components/notes-changer";
+
 export default {
+  components: {NotesChanger},
   data() {
     return {
       editorjson: '',
