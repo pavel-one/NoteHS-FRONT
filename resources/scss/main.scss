@@ -1,4 +1,7 @@
 @import "~boxicons/css/boxicons.min.css";
+@import "vuesax/dist/vuesax.min.css";
+@import "highlight.js/scss/atom-one-dark";
+@import "firacode/distr/fira_code.css";
 
 #app {
   position: relative;
@@ -113,10 +116,9 @@ body {
   margin-top: 50px;
 }
 
-//.ce-block__content, .ce-toolbar__content {
-//  max-width:calc(60% - 80px) !important;
-//}
-//.cdx-block {
-  //max-width: 60% !important;
-  //box-shadow: 5px 5px 10px rgba(0,0,0,.1);
-//}
+.ce-block__content, .ce-toolbar__content {
+  max-width:calc(100% - 80px) !important;
+}
+.cdx-block {
+  max-width: 100% !important;
+}

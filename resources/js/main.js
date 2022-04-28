@@ -5,10 +5,13 @@ import Api from "@/plugins/api.js"
 import { store } from "@store/default.js"
 import Editor from 'vue-editor-js/src'
 
+let hljs;
+hljs = require('highlight.js/lib');
+
+window.hljs = hljs
+
 import SpeedDialPage from "@pages/SpeedDialPage";
 import NotePage from "@pages/NotePage";
-
-import 'vuesax/dist/vuesax.min.css'
 
 Vue.component('SpeedDialPage', SpeedDialPage)
 Vue.component('NotePage', NotePage)

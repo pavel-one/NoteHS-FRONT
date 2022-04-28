@@ -1,13 +1,16 @@
 <template>
-  <div>
+  <vs-row>
     {{ editorjson }}
-    <editor ref="editor" @change="change" v-model="editorjson" :config="config" :initialized="onInit"></editor>
-  </div>
+      <vs-col :w="2">
+
+      </vs-col>
+      <vs-col :w="9" :offset="1">
+        <editor ref="editor" @change="change" v-model="editorjson" :config="config" :initialized="onInit"></editor>
+      </vs-col>
+  </vs-row>
 </template>
 
 <script>
-import 'highlightjs/styles/github.css'
-
 export default {
   data() {
     return {
@@ -21,16 +24,16 @@ export default {
           link: require('@editorjs/link'),
           delimiter: require('@editorjs/delimiter'),
           image: require('@editorjs/image'),
-          codebox: require('@bomdi/codebox'),
+          codebox: require('@/vendor/codebox/dist/index.min'),
           table: require('editorjs-table'),
           attaches: require('@editorjs/attaches'),
           marker: require('@editorjs/marker'),
           inlineCode: require('@editorjs/inline-code'),
         },
-        codebox: {
-          themeName: 'github',
-          useDefaultTheme: 'dark'
-        }
+        // codebox: {
+        //   themeName: 'github',
+        //   useDefaultTheme: 'dark'
+        // }
       }
     }
   },

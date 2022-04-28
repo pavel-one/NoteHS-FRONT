@@ -15,13 +15,14 @@
     "vue-template-compiler": "^2.6.14"
   },
   "dependencies": {
-    "@bomdi/codebox": "^1.0.12",
+    "@editorjs/editorjs": "^2.24.0",
     "@editorjs/header": "^2.6.2",
     "@editorjs/list": "^1.7.0",
     "axios": "^0.26.0",
     "boxicons": "^2.1.1",
     "editorjs-table": "^1.4.10",
-    "highlightjs": "^9.16.2",
+    "firacode": "^6.2.0",
+    "highlight.js": "^9.18.1",
     "vue": "^2.6.14",
     "vue-editor-js": "^2.0.2",
     "vuesax": "^4.0.1-alpha.25",
