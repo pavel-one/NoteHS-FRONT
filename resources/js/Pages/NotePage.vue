@@ -1,11 +1,11 @@
 <template>
   <vs-row>
-    {{ editorjson }}
       <vs-col :w="2">
         <notes-changer></notes-changer>
       </vs-col>
       <vs-col :w="9" :offset="1">
         <editor ref="editor" @change="change" v-model="editorjson" :config="config" :initialized="onInit"></editor>
+        <pre>{{ editorjson }}</pre>
       </vs-col>
   </vs-row>
 </template>
@@ -32,11 +32,7 @@ export default {
           attaches: require('@editorjs/attaches'),
           marker: require('@editorjs/marker'),
           inlineCode: require('@editorjs/inline-code'),
-        },
-        // codebox: {
-        //   themeName: 'github',
-        //   useDefaultTheme: 'dark'
-        // }
+        }
       }
     }
   },
@@ -46,7 +42,14 @@ export default {
     },
     onInit: function (e) {
       console.log(e, 'init editor')
-    }
+      setInterval(timer => {
+        this.$refs.editor._data.state.editor.save()
+            .then((data) => {
+              this.editorjson = data
+            })
+            .catch(err => { console.log(err) })
+      }, 1000)
+    },
   }
 }
 </script>
