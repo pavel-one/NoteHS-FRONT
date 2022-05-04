@@ -133,3 +133,14 @@ body {
   transform: translateX(-15px);
   opacity: 0;
 }
+
+.editable {
+  border-bottom: 2px solid transparent;
+  transition: .25s;
+  padding-bottom: 2px;
+}
+
+.editable:focus {
+  outline: none;
+  border-bottom: 2px solid #dcdcdc;
+}

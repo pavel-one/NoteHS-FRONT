@@ -4,12 +4,12 @@
       <i class='bx bx-plus'></i> Добавить
     </vs-button>
     <transition-group name="slide-fade">
-      <div v-if="currentID === 0" :key="0" class="item active">
+      <div v-if="current.id === 0" :key="0" class="item active">
         <div class="name">
-          Новая страница
+          {{ current.name }}
         </div>
         <div class="description">
-          Без описания
+          {{ current.description }}
         </div>
         <div class="updated">
           Не сохранено
@@ -41,7 +41,7 @@
           </vs-tooltip>
         </div>
       </div>
-      <div class="item" :class="{active: note.id === currentID}" @click="change(note.id)" v-for="note in notes" :key="note.id">
+      <div class="item" :class="{active: note.id === current.id}" @click="change(note)" v-for="note in notes" :key="note.id">
         <div class="name">
           {{ note.name }}
         </div>
@@ -83,7 +83,7 @@
                        floating
                        gradient
                        size="mini"
-                       @click="remove"
+                       @click.stop="remove(note.id)"
                        circle>
               <i class='bx bx-trash'></i>
             </vs-button>
@@ -101,25 +101,93 @@
 export default {
   data() {
     return {
-      currentID: 0,
+      current: {
+        id: 0,
+        name: 'Без имени',
+        description: 'Без описания',
+        data: null
+      },
       notes: [
         {
           id: 1,
           name: 'Тестовая заметка',
           description: 'Ну какая то заметка',
           date: '1 неделя назад',
+          data: {
+            "time": 1651659173419,
+            "blocks": [
+              {
+                "id": "gDJ77dSwQm",
+                "type": "header",
+                "data": {
+                  "text": "Test",
+                  "level": 2
+                }
+              },
+              {
+                "id": "5rA_Yy8XXw",
+                "type": "paragraph",
+                "data": {
+                  "text": "test"
+                }
+              }
+            ],
+            "version": "2.24.0"
+          }
         },
         {
           id: 2,
           name: 'Тестовая заметка',
           description: 'Ну какая то заметка',
           date: '1 неделя назад',
+          data: {
+            "time": 1651659173419,
+            "blocks": [
+              {
+                "id": "gDJ77dSwQm",
+                "type": "header",
+                "data": {
+                  "text": "Test 2",
+                  "level": 2
+                }
+              },
+              {
+                "id": "5rA_Yy8XXw",
+                "type": "paragraph",
+                "data": {
+                  "text": "test 2"
+                }
+              }
+            ],
+            "version": "2.24.0"
+          }
         },
         {
           id: 3,
           name: 'Тестовая заметка',
           description: 'Ну какая то заметка',
           date: '1 неделя назад',
+          data: {
+            "time": 1651659173419,
+            "blocks": [
+              {
+                "id": "gDJ77dSwQm",
+                "type": "header",
+                "data": {
+                  "text": "Test 3",
+                  "level": 2
+                }
+              },
+              {
+                "id": "5rA_Yy8XXw",
+                "type": "paragraph",
+                "data": {
+                  "text": "test 3"
+                }
+              }
+            ],
+            "version": "2.24.0"
+          }
         },
         {
           id: 4,
@@ -137,16 +205,35 @@ export default {
     }
   },
   methods: {
-    remove: function () {
-      this.notes.pop()
+    remove: function (id) {
+      this.notes.forEach((item, index) => {
+        if (item.id === id) {
+          this.notes.splice(index, 1)
+        }
+      })
+
+      if (this.current.id === id) {
+        this.newPage()
+      }
     },
-    change: function (id) {
-      this.currentID = id
+    change: function (note) {
+      this.current = note
+      this.$emit('change', this.current)
     },
     newPage: function () {
-      console.log('new page')
-      this.currentID = 0
+      this.current = {
+        id: 0,
+        name: 'Без имени',
+        description: 'Без описания',
+        data: null
+      }
+      this.$emit('change', this.current)
     }
+  },
+  mounted() {
+    setTimeout(() => {
+      this.newPage()
+    }, 800)
   }
 }
 </script>
