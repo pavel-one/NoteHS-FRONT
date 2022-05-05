@@ -133,6 +133,39 @@ Api.getToken = async () => {
     return response.data.resource.token
 }
 
+Api.getPosts = async () => {
+    const token = await Api.Auth()
+    const response = await http.get('/posts/', {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    return response.data.resource
+}
+
+Api.createOrUpdatePost = async (dataForm) => {
+    const token = await Api.Auth()
+    const response = await http.post('/posts/', dataForm,{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    return response.data.resource
+}
+
+Api.dropPost = async (id) => {
+    const token = await Api.Auth()
+    const response = await http.delete('/posts/' + id, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    return response.data.resource
+}
+
 Module.install = function (vue, options) {
     vue.prototype.$api = Api
 

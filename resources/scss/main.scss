@@ -144,3 +144,17 @@ body {
   outline: none;
   border-bottom: 2px solid #dcdcdc;
 }
+
+.title-input, .subtitle-input {
+  display: block;
+  font-size: 2em;
+  font-weight: bold;
+  background: 0;
+  border: none;
+  border-bottom: 2px solid transparent;
+  width: 100%;
+}
+.subtitle-input {
+  font-size: 1.2em;
+  font-weight: normal;
+}

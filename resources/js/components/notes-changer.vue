@@ -3,7 +3,7 @@
     <vs-button block @click="newPage">
       <i class='bx bx-plus'></i> Добавить
     </vs-button>
-    <transition-group name="slide-fade">
+    <transition-group ref="content" name="slide-fade">
       <div v-if="current.id === 0" :key="0" class="item active">
         <div class="name">
           {{ current.name }}
@@ -41,7 +41,7 @@
           </vs-tooltip>
         </div>
       </div>
-      <div class="item" :class="{active: note.id === current.id}" @click="change(note)" v-for="note in notes" :key="note.id">
+      <div class="item" :ref="note.id"  :class="{active: note.id === current.id}" @click="change(note)" v-for="note in notes" :key="note.id">
         <div class="name">
           {{ note.name }}
         </div>
@@ -99,140 +99,72 @@
 
 <script>
 export default {
-  data() {
-    return {
-      current: {
+  props: {
+    current: {
+      type: Object,
+      default: {
         id: 0,
         name: 'Без имени',
         description: 'Без описания',
         data: null
-      },
-      notes: [
-        {
-          id: 1,
-          name: 'Тестовая заметка',
-          description: 'Ну какая то заметка',
-          date: '1 неделя назад',
-          data: {
-            "time": 1651659173419,
-            "blocks": [
-              {
-                "id": "gDJ77dSwQm",
-                "type": "header",
-                "data": {
-                  "text": "Test",
-                  "level": 2
-                }
-              },
-              {
-                "id": "5rA_Yy8XXw",
-                "type": "paragraph",
-                "data": {
-                  "text": "test"
-                }
-              }
-            ],
-            "version": "2.24.0"
-          }
-        },
-        {
-          id: 2,
-          name: 'Тестовая заметка',
-          description: 'Ну какая то заметка',
-          date: '1 неделя назад',
-          data: {
-            "time": 1651659173419,
-            "blocks": [
-              {
-                "id": "gDJ77dSwQm",
-                "type": "header",
-                "data": {
-                  "text": "Test 2",
-                  "level": 2
-                }
-              },
-              {
-                "id": "5rA_Yy8XXw",
-                "type": "paragraph",
-                "data": {
-                  "text": "test 2"
-                }
-              }
-            ],
-            "version": "2.24.0"
-          }
-        },
-        {
-          id: 3,
-          name: 'Тестовая заметка',
-          description: 'Ну какая то заметка',
-          date: '1 неделя назад',
-          data: {
-            "time": 1651659173419,
-            "blocks": [
-              {
-                "id": "gDJ77dSwQm",
-                "type": "header",
-                "data": {
-                  "text": "Test 3",
-                  "level": 2
-                }
-              },
-              {
-                "id": "5rA_Yy8XXw",
-                "type": "paragraph",
-                "data": {
-                  "text": "test 3"
-                }
-              }
-            ],
-            "version": "2.24.0"
-          }
-        },
-        {
-          id: 4,
-          name: 'Тестовая заметка',
-          description: 'Ну какая то заметка',
-          date: '1 неделя назад',
-        },
-        {
-          id: 5,
-          name: 'Тестовая заметка',
-          description: 'Ну какая то заметка',
-          date: '1 неделя назад',
-        },
-      ]
+      }
+    }
+  },
+  data() {
+    return {
+      notes: []
     }
   },
   methods: {
-    remove: function (id) {
-      this.notes.forEach((item, index) => {
-        if (item.id === id) {
-          this.notes.splice(index, 1)
-        }
-      })
+    loadData: async function () {
+      this.notes = await this.$api.getPosts()
+    },
+    remove: async function (id) {
+      // this.notes.forEach((item, index) => {
+      //   if (item.id === id) {
+      //     this.notes.splice(index, 1)
+      //   }
+      // })
 
       if (this.current.id === id) {
         this.newPage()
       }
+
+      const loading = this.$vs.loading({
+        target: this.$refs[id][0],
+        scale: '0.6',
+        background: '#f4f7f8',
+        opacity: 0.8,
+      })
+
+      await this.$api.dropPost(id)
+      await this.loadData()
+      loading.close()
     },
     change: function (note) {
-      this.current = note
-      this.$emit('change', this.current)
+      this.$emit('change', note)
     },
     newPage: function () {
-      this.current = {
+      this.$emit('change', {
         id: 0,
         name: 'Без имени',
         description: 'Без описания',
         data: null
-      }
-      this.$emit('change', this.current)
+      })
     }
   },
   mounted() {
+    const loading = this.$vs.loading({
+      target: this.$refs.content,
+      scale: '0.6',
+      background: '#f4f7f8',
+      opacity: 0.8,
+    })
+
+    this.loadData()
     setTimeout(() => {
       this.newPage()
+      loading.close()
     }, 800)
   }
 }

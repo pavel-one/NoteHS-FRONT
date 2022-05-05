@@ -1,11 +1,15 @@
 <template>
   <vs-row>
       <vs-col :w="2">
-        <notes-changer @change="change"></notes-changer>
+        <notes-changer :current="{
+          id: currentID,
+          name: name,
+          description: description
+        }" @change="changePage"></notes-changer>
       </vs-col>
       <vs-col :w="9" :offset="1">
-        <h2 class="editable" ref="name" @change="name = this.$refs.name.content" style="margin-bottom: 0; margin-left: 40px" contenteditable="true">{{ name }}</h2>
-        <div class="editable" ref="description" @change="description = this.$refs.description.content" style="margin-bottom: 30px; margin-left: 40px" contenteditable="true">{{ description }}</div>
+        <input style="margin-bottom: 10px; margin-left: 40px" type="text" class="title-input editable" v-model="name">
+        <input style="margin-bottom: 30px; margin-left: 40px" type="text" class="subtitle-input editable" v-model="description">
         <editor ref="editor" :config="config" :init-data="editor"></editor>
         <pre>{{ editor }}</pre>
       </vs-col>
@@ -21,6 +25,7 @@ export default {
     return {
       name: '',
       description: null,
+      currentID: 0,
       editor: {},
       config: {
         placeholder: 'Начни вводить...',
@@ -41,16 +46,37 @@ export default {
           this.$refs.editor._data.state.editor.save()
                 .then((data) => {
                   this.editor = data
+
+                  let request = {}
+
+                  if (this.currentID === 0) {
+                    request = {
+                      name: this.name,
+                      description: this.description,
+                      data: this.editor
+                    }
+                  } else {
+                    request = {
+                      id: this.currentID,
+                      name: this.name,
+                      description: this.description,
+                      data: this.editor
+                    }
+                  }
+
+
+                  this.$api.createOrUpdatePost(request)
                 })
         },
       }
     }
   },
   methods: {
-    change: function (e) {
+    changePage: function (e) {
       this.editor = e.data ?? null
       this.name = e.name
       this.description = e?.description
+      this.currentID = e.id
 
       if (!this.editor) {
         this.$refs.editor._data.state.editor.clear()
