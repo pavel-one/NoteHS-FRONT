@@ -41,7 +41,7 @@
           </vs-tooltip>
         </div>
       </div>
-      <div class="item" :ref="note.id"  :class="{active: note.id === current.id}" @click="change(note)" v-for="note in notes" :key="note.id">
+      <div class="item" :ref="note.id"  :class="{active: note.id === current.id}" @click="click(note)" v-for="note in notes" :key="note.id">
         <div class="name">
           {{ note.name }}
         </div>
@@ -62,7 +62,6 @@
             <i class='bx bx-sync'></i>
           </vs-button>
           -->
-          <vs-tooltip>
             <vs-button color="dark"
                        border
                        icon
@@ -73,11 +72,6 @@
               <i class='bx bxs-share-alt'></i>
             </vs-button>
 
-            <template #tooltip>
-              Опубликовать
-            </template>
-          </vs-tooltip>
-          <vs-tooltip>
             <vs-button color="danger"
                        icon
                        floating
@@ -87,10 +81,6 @@
                        circle>
               <i class='bx bx-trash'></i>
             </vs-button>
-            <template #tooltip>
-              Удалить
-            </template>
-          </vs-tooltip>
         </div>
       </div>
     </transition-group>
@@ -141,11 +131,11 @@ export default {
       await this.loadData()
       loading.close()
     },
-    change: function (note) {
-      this.$emit('change', note)
+    click: function (note) {
+      this.$emit('changeNote', note)
     },
     newPage: function () {
-      this.$emit('change', {
+      this.$emit('changeNote', {
         id: 0,
         name: 'Без имени',
         description: 'Без описания',

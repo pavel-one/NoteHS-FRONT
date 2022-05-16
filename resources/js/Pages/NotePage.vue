@@ -1,11 +1,11 @@
 <template>
   <vs-row>
       <vs-col :w="2">
-        <notes-changer :current="{
+        <notes-changer ref="changer-component" :current="{
           id: currentID,
           name: name,
           description: description
-        }" @change="changePage"></notes-changer>
+        }" @changeNote="changePage"></notes-changer>
       </vs-col>
       <vs-col :w="9" :offset="1">
         <input style="margin-bottom: 10px; margin-left: 40px" type="text" class="title-input editable" v-model="name">
@@ -42,31 +42,40 @@ export default {
           marker: require('@editorjs/marker'),
           inlineCode: require('@editorjs/inline-code'),
         },
-        onChange: (args) => {
-          this.$refs.editor._data.state.editor.save()
-                .then((data) => {
-                  this.editor = data
+        onChange: async (args) => {
+          console.log('CHANGE EVENT!!!!!!!!')
 
-                  let request = {}
+          const data = await this.$refs.editor._data.state.editor.save()
 
-                  if (this.currentID === 0) {
-                    request = {
-                      name: this.name,
-                      description: this.description,
-                      data: this.editor
-                    }
-                  } else {
-                    request = {
-                      id: this.currentID,
-                      name: this.name,
-                      description: this.description,
-                      data: this.editor
-                    }
-                  }
+          this.editor = data
+          if (data.blocks.length === 0) {
+            return
+          }
+
+          let request = {}
+
+          if (this.currentID === 0) {
+            request = {
+              name: this.name,
+              description: this.description,
+              data: this.editor
+            }
+          } else {
+            request = {
+              id: this.currentID,
+              name: this.name,
+              description: this.description,
+              data: this.editor
+            }
+          }
 
 
-                  this.$api.createOrUpdatePost(request)
-                })
+          const response = await this.$api.createOrUpdatePost(request)
+
+          if (response.id) {
+            await this.$refs["changer-component"].loadData()
+            this.currentID = response.id
+          }
         },
       }
     }
