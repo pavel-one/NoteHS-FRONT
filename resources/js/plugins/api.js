@@ -126,6 +126,8 @@ Api.changeDial = async (id, dataForm) => {
 }
 
 Api.getToken = async () => {
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
     const response = await http.post('/auth/', {
         google_id: google_id
     })
