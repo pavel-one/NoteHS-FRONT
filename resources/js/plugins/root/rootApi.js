@@ -167,4 +167,18 @@ Api.dropPost = async (id) => {
     return response.data.resource
 }
 
+Api.changeSettings = async (post, component) => {
+    const token = await Api.Auth()
+    const response = await http.post('user/settings', {
+        "component": String(component).toString(),
+        "post_id": String(post).toString()
+    },{
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+
+    return response.data.resource
+}
+
 export default Api

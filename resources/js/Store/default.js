@@ -14,15 +14,18 @@ export const store = new Vuex.Store({
         CHANGE_COMPONENT: (state, payload) => {
             state.component = payload
             state.title = payload
+            Api.changeSettings(state.post, state.component)
         },
         CHANGE_POST: (state, payload) => {
             state.post = payload
+            Api.changeSettings(state.post, state.component)
         }
     },
     getters: {
         user: async function (state) {
-            console.log(this)
             const user = await Api.getUserInfo()
+
+            console.log(user.resource)
 
             return user.resource
         }

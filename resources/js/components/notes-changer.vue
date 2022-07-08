@@ -153,7 +153,15 @@ export default {
 
     this.loadData()
     setTimeout(() => {
-      this.newPage()
+      if (this.current.id === 0 || this.notes === null) {
+        this.newPage()
+      } else {
+        this.notes.forEach(item => {
+          if (item.id === this.current.id) {
+            this.click(item)
+          }
+        })
+      }
       loading.close()
     }, 800)
   }

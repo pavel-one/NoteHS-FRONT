@@ -67,12 +67,15 @@ export default {
             }
           }
 
-
           const response = await this.$api.createOrUpdatePost(request)
 
           if (response.id) {
             await this.$refs["changer-component"].loadData()
             this.currentID = response.id
+
+            if (!response.id !== this.$store.state.post) {
+              this.$store.commit('CHANGE_POST', response.id)
+            }
           }
         },
       }
@@ -84,6 +87,10 @@ export default {
       this.name = e.name
       this.description = e?.description
       this.currentID = e.id
+
+      if (!e.id !== this.$store.state.post) {
+        this.$store.commit('CHANGE_POST', e.id)
+      }
 
       if (!this.editor) {
         this.$refs.editor._data.state.editor.clear()
