@@ -25,7 +25,7 @@ export default {
     return {
       name: '',
       description: null,
-      currentID: 0,
+      currentID: this.$store.state.post,
       editor: {},
       config: {
         placeholder: 'Начни вводить...',
@@ -43,8 +43,6 @@ export default {
           inlineCode: require('@editorjs/inline-code'),
         },
         onChange: async (args) => {
-          console.log('CHANGE EVENT!!!!!!!!')
-
           const data = await this.$refs.editor._data.state.editor.save()
 
           this.editor = data

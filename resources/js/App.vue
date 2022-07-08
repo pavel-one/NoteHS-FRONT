@@ -28,13 +28,21 @@ export default {
     checkAuth: function () {
       chrome.identity.getProfileUserInfo(userInfo => {
         this.login = !!userInfo.id;
-        // this.login = false;
       });
     }
   },
   mounted() {
     this.checkAuth();
-    this.$api.getUserInfo()
+    const userPromise = this.$store.getters.user;
+
+    userPromise.then(user => {
+      if (user) {
+        this.$store.commit('CHANGE_POST', user.settings.post)
+        this.$store.commit('CHANGE_COMPONENT', user.settings.component)
+      }
+    }).catch(error => {
+      //TODO: set error
+    })
 
     //Закладки
     chrome.bookmarks.getTree(items => {

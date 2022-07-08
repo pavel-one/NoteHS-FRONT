@@ -16,8 +16,8 @@ import NotePage from "@pages/NotePage";
 Vue.component('SpeedDialPage', SpeedDialPage)
 Vue.component('NotePage', NotePage)
 
-Vue.use(Vuesax)
 Vue.use(Api)
+Vue.use(Vuesax)
 Vue.use(Editor)
 
 let app = new Vue({
